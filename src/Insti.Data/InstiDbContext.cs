@@ -1,9 +1,11 @@
-﻿using Insti.Data.Models;
+﻿
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Insti.Data
 {
-    public class InstiDbContext : DbContext
+    public class InstiDbContext : IdentityDbContext<IdentityUser>
     {
         public InstiDbContext()
         {
@@ -13,7 +15,5 @@ namespace Insti.Data
             : base(options)
         {
         }
-
-        public DbSet<User> Users { get; set; }
     }
 }

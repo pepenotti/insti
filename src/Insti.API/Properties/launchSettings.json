@@ -1,31 +1,17 @@
 ﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:34864",
-      "sslPort": 44351
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
     }
   },
-  "profiles": {
-    "Insti.API": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7157;http://localhost:5157",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    }
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "ConnStr": "Data Source=./Database.db"
+  },
+  "JWT": {
+    "ValidAudience": "http://localhost:4200",
+    "ValidIssuer": "http://localhost:5000",
+    "Secret": "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr"
   }
 }
