@@ -1,5 +1,4 @@
-﻿
-namespace Insti.Core.Models.API.Authentication
+﻿namespace Insti.Core.DTO.API.Authentication
 {
     public class LoginOKResponse
     {
