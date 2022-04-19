@@ -3,6 +3,7 @@ using System;
 using Insti.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,17 +11,52 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Insti.API.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220418195859_Complete_Schema")]
+    partial class Complete_Schema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
+
+            modelBuilder.Entity("AsignatureProfessor", b =>
+                {
+                    b.Property<int>("AsignaturesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AsignaturesId", "ProfessorId");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.ToTable("AsignatureProfessor");
+                });
+
+            modelBuilder.Entity("Insti.Data.Models.Asignature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Asignatures");
+                });
 
             modelBuilder.Entity("Insti.Data.Models.Assistance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AsignatureId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AssistanceStatusId")
@@ -32,19 +68,16 @@ namespace Insti.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ModuleId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AsignatureId");
+
                     b.HasIndex("AssistanceStatusId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("ModuleId");
 
                     b.HasIndex("StudentId");
 
@@ -75,14 +108,6 @@ namespace Insti.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
@@ -94,42 +119,9 @@ namespace Insti.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Genders");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.Module", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("StudyPlanId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("StudyPlanId");
-
-                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("Insti.Data.Models.Professor", b =>
@@ -168,18 +160,18 @@ namespace Insti.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AsignatureId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("ModuleId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModuleId");
+                    b.HasIndex("AsignatureId");
 
                     b.ToTable("Schedules");
                 });
@@ -217,69 +209,6 @@ namespace Insti.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Goals")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TimeFrame")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StudyPlan");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlanContent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("StudyPlanId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudyPlanId");
-
-                    b.ToTable("StudyPlanContent");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlanContentData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("StudyPlanContentId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudyPlanContentId");
-
-                    b.ToTable("StudyPlanContentData");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -474,23 +403,40 @@ namespace Insti.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ModuleProfessor", b =>
+            modelBuilder.Entity("AsignatureProfessor", b =>
                 {
-                    b.Property<int>("ModulesId")
-                        .HasColumnType("INTEGER");
+                    b.HasOne("Insti.Data.Models.Asignature", null)
+                        .WithMany()
+                        .HasForeignKey("AsignaturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("ProfessorId")
-                        .HasColumnType("INTEGER");
+                    b.HasOne("Insti.Data.Models.Professor", null)
+                        .WithMany()
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasKey("ModulesId", "ProfessorId");
+            modelBuilder.Entity("Insti.Data.Models.Asignature", b =>
+                {
+                    b.HasOne("Insti.Data.Models.Course", "Course")
+                        .WithMany("Asignatures")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasIndex("ProfessorId");
-
-                    b.ToTable("ModuleProfessor");
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Insti.Data.Models.Assistance", b =>
                 {
+                    b.HasOne("Insti.Data.Models.Asignature", "Asignature")
+                        .WithMany()
+                        .HasForeignKey("AsignatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Insti.Data.Models.AssistanceStatus", "AssistanceStatus")
                         .WithMany()
                         .HasForeignKey("AssistanceStatusId")
@@ -503,44 +449,19 @@ namespace Insti.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Insti.Data.Models.Module", "Module")
-                        .WithMany()
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Insti.Data.Models.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Asignature");
+
                     b.Navigation("AssistanceStatus");
 
                     b.Navigation("Course");
 
-                    b.Navigation("Module");
-
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.Module", b =>
-                {
-                    b.HasOne("Insti.Data.Models.Course", "Course")
-                        .WithMany("Modules")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Insti.Data.Models.StudyPlan", "StudyPlan")
-                        .WithMany()
-                        .HasForeignKey("StudyPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("StudyPlan");
                 });
 
             modelBuilder.Entity("Insti.Data.Models.Professor", b =>
@@ -564,13 +485,13 @@ namespace Insti.API.Migrations
 
             modelBuilder.Entity("Insti.Data.Models.Schedule", b =>
                 {
-                    b.HasOne("Insti.Data.Models.Module", "Module")
+                    b.HasOne("Insti.Data.Models.Asignature", "Asignature")
                         .WithMany()
-                        .HasForeignKey("ModuleId")
+                        .HasForeignKey("AsignatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Module");
+                    b.Navigation("Asignature");
                 });
 
             modelBuilder.Entity("Insti.Data.Models.Student", b =>
@@ -594,20 +515,6 @@ namespace Insti.API.Migrations
                     b.Navigation("Gender");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlanContent", b =>
-                {
-                    b.HasOne("Insti.Data.Models.StudyPlan", null)
-                        .WithMany("Content")
-                        .HasForeignKey("StudyPlanId");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlanContentData", b =>
-                {
-                    b.HasOne("Insti.Data.Models.StudyPlanContent", null)
-                        .WithMany("Content")
-                        .HasForeignKey("StudyPlanContentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -661,36 +568,11 @@ namespace Insti.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ModuleProfessor", b =>
-                {
-                    b.HasOne("Insti.Data.Models.Module", null)
-                        .WithMany()
-                        .HasForeignKey("ModulesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Insti.Data.Models.Professor", null)
-                        .WithMany()
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Insti.Data.Models.Course", b =>
                 {
-                    b.Navigation("Modules");
+                    b.Navigation("Asignatures");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlan", b =>
-                {
-                    b.Navigation("Content");
-                });
-
-            modelBuilder.Entity("Insti.Data.Models.StudyPlanContent", b =>
-                {
-                    b.Navigation("Content");
                 });
 #pragma warning restore 612, 618
         }
