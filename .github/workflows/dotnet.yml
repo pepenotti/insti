@@ -25,4 +25,4 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       working-directory: src/Insti.API.Test
-      run: dotnet --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
