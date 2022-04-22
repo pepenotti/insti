@@ -5,8 +5,6 @@ using Insti.Core.DTO.API.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -61,7 +59,7 @@ namespace Insti.API.Test.Controllers
                 return Task.FromResult(errors.Any() ? IdentityResult.Failed(errors.ToArray()) : IdentityResult.Success);
             };
 
-            InitUserManagerMock(ref userManagerMock, getUserAsyncReturn!, removeFromRolesAsyncReturn!, addToRolesAsyncReturn!);
+            UserManagerMocker.InitUserManagerMock(ref userManagerMock, getUserAsyncReturn!, removeFromRolesAsyncReturn!, addToRolesAsyncReturn!);
 
             var userManager = userManagerMock.Object!;
 
@@ -84,7 +82,6 @@ namespace Insti.API.Test.Controllers
         public async Task SetRoles_InvalidRoles_Error()
         {
             //Arrange
-
             var userManagerMock = UserManagerMocker.MockUserManager(new List<IdentityUser> { user });
             var userRoles = UserRoles.Roles;
             var userRolesWereCleared = false;
@@ -116,7 +113,7 @@ namespace Insti.API.Test.Controllers
                 return Task.FromResult(errors.Any() ? IdentityResult.Failed(errors.ToArray()) : IdentityResult.Success);
             };
 
-            InitUserManagerMock(ref userManagerMock, getUserAsyncReturn, removeFromRolesAsyncReturn!, addToRolesAsyncReturn!);
+            UserManagerMocker.InitUserManagerMock(ref userManagerMock, getUserAsyncReturn, removeFromRolesAsyncReturn!, addToRolesAsyncReturn!);
 
             var userManager = userManagerMock.Object!;
 
@@ -138,22 +135,6 @@ namespace Insti.API.Test.Controllers
             var error = resultValue.Errors.First();
             Assert.AreEqual(error.Code, WRONG_ROLE_CODE);
             Assert.AreEqual(error.Description, WRONG_ROLE);
-        }
-
-        private void InitUserManagerMock(
-            ref Mock<UserManager<IdentityUser>> mock, 
-            Func<ClaimsPrincipal, Task<IdentityUser>> getUserAsyncReturn, 
-            Func<IdentityUser, IEnumerable<string>, Task<IdentityResult>> removeFromRolesAsyncReturn, 
-            Func<IdentityUser, IEnumerable<string>, Task<IdentityResult>> addToRolesAsyncReturn)
-        {
-            mock.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
-                .Returns(getUserAsyncReturn);
-
-            mock.Setup(x => x.RemoveFromRolesAsync(It.IsAny<IdentityUser>(), It.IsAny<IEnumerable<string>>()))
-                .Returns(removeFromRolesAsyncReturn);
-
-            mock.Setup(x => x.AddToRolesAsync(It.IsAny<IdentityUser>(), It.IsAny<IEnumerable<string>>()))
-                .Returns(addToRolesAsyncReturn);
         }
     }
 }
