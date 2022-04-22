@@ -1,4 +1,5 @@
 
+[![.NET](https://github.com/pepenotti/insti/actions/workflows/dotnet.yml/badge.svg)](https://github.com/pepenotti/insti/actions/workflows/dotnet.yml)
 
 ## Special thanks
 
