@@ -7,6 +7,9 @@
         public const string Professor = "professor";
         public const string Monitor = "monitor";
 
-        public readonly static List<string> Roles = new() { Admin, Student, Professor, Monitor }; 
+        private readonly static List<string> roles = new() { Admin, Student, Professor, Monitor }; 
+
+        // This way we return a new instance of the list, and the roles remain unmodifiable
+        public static List<String> Roles => roles.ToList();
     }
 }

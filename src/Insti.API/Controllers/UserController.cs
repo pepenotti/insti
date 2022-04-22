@@ -1,5 +1,5 @@
 ﻿using Insti.Core.Constants;
-using Insti.Core.DTO.API.Roles;
+using Insti.Core.DTO.API.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +19,12 @@ namespace Insti.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> SetRoles([FromBody] SetRoles request)
+        public async Task<IActionResult> SetRoles([FromBody] SetRolesRequest request)
         {
             var user = await GetUserIdentity();
 
             await userManager.RemoveFromRolesAsync(user, UserRoles.Roles);
-            
-            return Ok(await userManager.AddToRolesAsync(user, request.Roles));
+            return new OkObjectResult(await userManager.AddToRolesAsync(user, request.Roles));
         }
 
         private Task<IdentityUser> GetUserIdentity() => userManager.GetUserAsync(User);

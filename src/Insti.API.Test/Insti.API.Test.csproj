@@ -20,4 +20,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Insti.API\Insti.API.csproj" />
+  </ItemGroup>
+
 </Project>
