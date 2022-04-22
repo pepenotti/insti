@@ -18,8 +18,11 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore src\Insti.API.Test
+      working-directory: src\Insti.API.Test
+      run: dotnet restore 
     - name: Build
-      run: dotnet build src\Insti.API.Test --no-restore
+      working-directory: src\Insti.API.Test
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test src\Insti.API.Test --no-build --verbosity normal
+      working-directory: src\Insti.API.Test
+      run: dotnet --no-build --verbosity normal
