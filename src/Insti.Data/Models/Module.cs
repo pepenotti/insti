@@ -8,10 +8,6 @@
 
         public StudyPlan StudyPlan { get; set; }
 
-        public int CourseId { get; set; }
-
-        public Course Course { get; set; }
-
         public List<Professor> Professor { get; set; }
     }
 }

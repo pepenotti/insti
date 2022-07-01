@@ -1,6 +1,6 @@
 ﻿namespace Insti.Data.Models
 {
-    public  class Course : BaseEntity
+    public class Course : BaseEntity
     {
         public string Name { get; set; }
 

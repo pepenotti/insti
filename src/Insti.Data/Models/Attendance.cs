@@ -1,11 +1,11 @@
 ﻿namespace Insti.Data.Models
 {
-    public class Assistance : BaseEntity
+    public class Attendance : BaseEntity
     {
         public DateTime Date { get; set; }
 
-        public int AssistanceStatusId { get; set; }
-        public AssistanceStatus AssistanceStatus { get; set; }
+        public int AttendanceStatusId { get; set; }
+        public AttendanceStatus AttendanceStatus { get; set; }
 
         public int ModuleId { get; set; }
         public Module Module { get; set; }

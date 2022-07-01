@@ -12,7 +12,6 @@ namespace Insti.API.Controllers
     {
         private readonly IAuthService authService;
 
-
         public AuthController(IAuthService authService)
         {
             this.authService = authService;

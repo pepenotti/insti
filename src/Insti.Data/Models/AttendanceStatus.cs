@@ -1,6 +1,6 @@
 ﻿namespace Insti.Data.Models
 {
-    public class AssistanceStatus : BaseEntity
+    public class AttendanceStatus : BaseEntity
     {
         public string Status { get; set; }
 
