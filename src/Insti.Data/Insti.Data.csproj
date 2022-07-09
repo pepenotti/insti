@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Insti.Core\Insti.Core.csproj" />
+  </ItemGroup>
+
 </Project>
