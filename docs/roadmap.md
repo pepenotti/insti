@@ -12,9 +12,8 @@ All versions must be released:
 - With a minimum of 90% of code coverage.
 - 0 warnings on release.
 - Low technical debt: no more than 10 TODO's
-    - Workarounds
-    - Smelly code
-
+  - Workarounds
+  - Smelly code
 
 ## v1.0 Roadmap - The Pig - MVP
 
@@ -31,14 +30,15 @@ On the MVP the application must have the following features:
 
 - Role management ✔
 - User Registration ✔
-    - Role assign ✔
+  - Role assign ✔
 - User login ✔
 - User authorization ✔
 
 ### 0.2 - Profile management
 
-- Users can manage their personal information.
-- Any information that could link the system data to an specific individual.
+- Users can manage their personal information. ✔
+  - Personal information will be stored on the Persons table, which can be deleted at any time by the user. ✔
+  - User <=> Person relationship should be encrypted. ✔
 
 ### 0.3 - Module management
 
