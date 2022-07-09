@@ -2,7 +2,7 @@
 
 namespace Insti.Core.DTO.API.Authentication
 {
-    public class RegisterModel
+    public partial class RegisterModel
     {
         [Required(ErrorMessage = "User Name is required")]
         public string Username { get; set; }
@@ -16,5 +16,8 @@ namespace Insti.Core.DTO.API.Authentication
 
         [Required(ErrorMessage = "Role is required")]
         public List<string> Roles { get; set; }
+
+        [Required(ErrorMessage = "Person data is required")]
+        public PersonModel PersonData { get; set; }
     }
 }

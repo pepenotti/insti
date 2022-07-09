@@ -20,7 +20,6 @@ namespace Insti.API.Test.Controllers
         private const string WRONG_ROLE_CODE = "test";
         private IdentityUser user;
 
-
         public UserControllerTest()
         {
             user = new() { Id = "pepe", UserName = "Pepe" , Email = "pepe@pepe.com", EmailConfirmed = true };
