@@ -20,7 +20,7 @@ namespace Insti.Data.Repositories
             context.SaveChanges();
         }
 
-        public void Delete(int entityId) => Delete(GetById(entityId));
+        public void Delete(string entityId) => Delete(GetById(entityId));
 
         public void Delete(T entity)
         {
@@ -30,7 +30,7 @@ namespace Insti.Data.Repositories
 
         public List<T> GetAll() => dbSet.ToList();
 
-        public T GetById(int entityId) => dbSet.SingleOrDefault(e => e.Id == entityId)!;
+        public T? GetById(string entityId) => dbSet.SingleOrDefault(e => e.Id == entityId);
 
         public void Update(T entity)
         {

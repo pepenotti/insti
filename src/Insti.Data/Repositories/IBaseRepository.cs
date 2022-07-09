@@ -6,8 +6,9 @@ namespace Insti.Data.Repositories
     {
         void Add(T entity);
         void Update(T entity);
-        void Delete(int entityId);
-        T GetById(int entityId);
+        void Delete(string entityId);
+        void Delete(T entity);
+        T? GetById(string entityId);
         List<T> GetAll();
     }
 }
