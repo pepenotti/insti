@@ -33,28 +33,33 @@ On the MVP the application must have the following features:
   - Role assign ✔
 - User login ✔
 - User authorization ✔
+- Test Cases ✔
 
 ### 0.2 - Profile management
 
 - Users can manage their personal information. ✔
   - Personal information will be stored on the Persons table, which can be deleted at any time by the user. ✔
   - User <=> Person relationship should be encrypted. ✔
+- Test Cases
 
 ### 0.3 - Module management
 
 - Administrators can manage modules
 - Adminsitrators can assign or remove professors to a module.
 - Administrators and professors can manage the study plan of a course.
+- Test Cases
 
 ### 0.4 - Course management
 
 - Administrators can create courses.
 - Administrators can assign or remove modules to a course.
 - Administrators can add or remove students to a course.
+- Test Cases
 
 ### 0.5 - Module schedule management
 
 - Administrators can manage module schedules.
+- Test Cases
 
 ### 0.6 - Attendance management
 
@@ -62,6 +67,7 @@ On the MVP the application must have the following features:
 - Administrators can manage attendance for all modules on any dates.
 - Professors can freely manage history on the module timeframe.
 - Students can consult their attendance history.
+- Test Cases
 
 ### v1.0 - The Pig - RELEASE
 

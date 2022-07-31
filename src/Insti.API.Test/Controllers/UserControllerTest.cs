@@ -29,7 +29,9 @@ namespace Insti.API.Test.Controllers
         public async Task SetRoles_ValidRoles_Success()
         {
             //Arrange
-           
+            var repositoryMocks = new RepositoryMocker();
+            repositoryMocks.Init();
+
             var userManagerMock = UserManagerMocker.MockUserManager(new List<IdentityUser> { user });
             var userRoles = UserRoles.Roles;
             var userRolesWereCleared = false;
@@ -63,13 +65,11 @@ namespace Insti.API.Test.Controllers
             var userManager = userManagerMock.Object!;
 
             //Act
-
-            var userController = new UserController(userManager);
+            var userController = new UserController(userManager, repositoryMocks.PersonRepository);
             var result = await userController.SetRoles(new SetRolesRequest { Roles = UserRoles.Roles }) as OkObjectResult;
             var resultValue = result!.Value as IdentityResult;
             
             // Assert
-
             Assert.IsNotNull(result);
             Assert.AreEqual(result.StatusCode, 200);
             Assert.IsTrue(resultValue!.Succeeded);
@@ -81,6 +81,8 @@ namespace Insti.API.Test.Controllers
         public async Task SetRoles_InvalidRoles_Error()
         {
             //Arrange
+            var repositoryMocks = new RepositoryMocker();
+            repositoryMocks.Init();
             var userManagerMock = UserManagerMocker.MockUserManager(new List<IdentityUser> { user });
             var userRoles = UserRoles.Roles;
             var userRolesWereCleared = false;
@@ -117,12 +119,10 @@ namespace Insti.API.Test.Controllers
             var userManager = userManagerMock.Object!;
 
             //Act
-
-            var userController = new UserController(userManager);
+            var userController = new UserController(userManager, repositoryMocks.PersonRepository);
             var result = await userController.SetRoles(new SetRolesRequest { Roles = roles }) as OkObjectResult;
 
             // Assert
-
             Assert.IsNotNull(result);
             Assert.AreEqual(result.StatusCode, 200);
 

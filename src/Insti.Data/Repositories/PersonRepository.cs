@@ -25,7 +25,7 @@ namespace Insti.Data.Repositories
 
             person.FirstName = String.Empty;
             person.LastName = String.Empty;
-            person.GenderId = 0;
+            person.GenderId = "0";
 
             Update(person);
         }

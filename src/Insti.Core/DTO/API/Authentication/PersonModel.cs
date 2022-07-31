@@ -10,6 +10,6 @@ namespace Insti.Core.DTO.API.Authentication
         [Required(ErrorMessage = "Last Name is required")]
         public string LastName { get; set; }
 
-        public int GenderId { get; set; }
+        public string GenderId { get; set; }
     }
 }
