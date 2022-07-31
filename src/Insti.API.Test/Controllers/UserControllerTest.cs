@@ -1,7 +1,11 @@
-﻿using Insti.API.Controllers;
+﻿using Bogus;
+using Insti.API.Controllers;
 using Insti.API.Test.Helpers;
 using Insti.Core.Constants;
+using Insti.Core.DTO.API.Authentication;
 using Insti.Core.DTO.API.User;
+using Insti.Data.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Person = Insti.Data.Models.Person;
 
 namespace Insti.API.Test.Controllers
 {
@@ -19,11 +24,15 @@ namespace Insti.API.Test.Controllers
         private const string WRONG_ROLE = "wrongRole";
         private const string WRONG_ROLE_CODE = "test";
         private IdentityUser user;
+        private List<IdentityUser> usersList;
 
         public UserControllerTest()
         {
             user = new() { Id = "pepe", UserName = "Pepe" , Email = "pepe@pepe.com", EmailConfirmed = true };
+            usersList  = new() { user };
         }
+
+        #region Set Roles
 
         [TestMethod]
         public async Task SetRoles_ValidRoles_Success()
@@ -32,7 +41,7 @@ namespace Insti.API.Test.Controllers
             var repositoryMocks = new RepositoryMocker();
             repositoryMocks.Init();
 
-            var userManagerMock = UserManagerMocker.MockUserManager(new List<IdentityUser> { user });
+            var userManagerMock = UserManagerMocker.MockUserManager(usersList);
             var userRoles = UserRoles.Roles;
             var userRolesWereCleared = false;
 
@@ -135,5 +144,101 @@ namespace Insti.API.Test.Controllers
             Assert.AreEqual(error.Code, WRONG_ROLE_CODE);
             Assert.AreEqual(error.Description, WRONG_ROLE);
         }
+
+        #endregion
+
+        #region Person
+
+        [TestMethod]
+        public async Task Get_Person()
+        {
+            //Arrange
+            RepositoryMocker repositoryMocks;
+            UserManager<IdentityUser> userManager;
+            PersonArrange(out repositoryMocks, out userManager);
+
+            //Act
+            var userController = new UserController(userManager, repositoryMocks.PersonRepository);
+            var result = await userController.GetPerson() as OkObjectResult;
+            var resultValue = result!.Value as Person;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
+
+            Assert.IsNotNull(resultValue);
+            Assert.AreEqual(user.Id, resultValue.IdentityUserId);
+        }
+
+        [TestMethod]
+        public async Task Put_Person()
+        {
+            //Arrange
+            PersonArrange(out RepositoryMocker repositoryMocks, out UserManager<IdentityUser> userManager);
+            var personModelMocker = new Faker<PersonModel>()
+                            .RuleFor(x => x.FirstName, f => f.Person.FirstName)
+                            .RuleFor(x => x.LastName, f => f.Person.LastName)
+                            .RuleFor(x => x.GenderId, f => "0");
+
+            var newPersonData = personModelMocker.Generate(1).First();
+            var storedPersonData = repositoryMocks.PersonRepository.GetByUserId(user.Id)!;
+            var oldFirstName = storedPersonData.FirstName;
+            var oldLastName = storedPersonData.LastName;
+            var oldGenderId = storedPersonData.GenderId;
+
+            //Act
+            var userController = new UserController(userManager, repositoryMocks.PersonRepository);
+            var result = await userController.UpdatePerson(newPersonData) as OkResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
+
+            Assert.AreNotEqual(oldFirstName, newPersonData.FirstName);
+            Assert.AreNotEqual(oldLastName, newPersonData.LastName);
+            Assert.AreNotEqual(oldGenderId, newPersonData.GenderId);
+
+            Assert.AreEqual(storedPersonData.FirstName, newPersonData.FirstName);
+            Assert.AreEqual(storedPersonData.LastName, newPersonData.LastName);
+            Assert.AreEqual(storedPersonData.GenderId, newPersonData.GenderId);
+        }
+
+        [TestMethod]
+        public async Task Delete_Person()
+        {
+            //Arrange
+            PersonArrange(out RepositoryMocker repositoryMocks, out UserManager<IdentityUser> userManager);
+            
+            var storedPersonData = repositoryMocks.PersonRepository.GetByUserId(user.Id)!;
+
+            //Act
+            var userController = new UserController(userManager, repositoryMocks.PersonRepository);
+            var result = await userController.DeletePerson() as OkResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
+
+            var deletedPersonData = repositoryMocks.PersonRepository.GetByUserId(user.Id);
+
+            Assert.IsNotNull(storedPersonData);
+            Assert.IsNull(deletedPersonData);
+        }
+
+        private void PersonArrange(out RepositoryMocker repositoryMocks, out UserManager<IdentityUser> userManager)
+        {
+            repositoryMocks = new RepositoryMocker();
+            repositoryMocks.Init(usersList);
+
+            var userManagerMock = UserManagerMocker.MockUserManager(usersList);
+
+            var getUserAsyncReturn = (ClaimsPrincipal x) => Task.FromResult(user);
+
+            UserManagerMocker.InitUserManagerMock(ref userManagerMock, getUserAsyncReturn!, null, null);
+
+            userManager = userManagerMock.Object!;
+        }
+
+        #endregion
     }
 }

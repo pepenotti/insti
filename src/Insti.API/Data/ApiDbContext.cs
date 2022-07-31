@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Insti.API.Data
 {
+    [ExcludeFromCodeCoverage]
     public class ApiDbContext : IdentityDbContext<IdentityUser>
     {
         public ApiDbContext(DbContextOptions<ApiDbContext> options)

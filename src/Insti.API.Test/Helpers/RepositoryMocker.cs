@@ -16,7 +16,7 @@ namespace Insti.API.Test.Helpers
             List<Person>? people = null)
         {
             Users = users ?? MockUsers(11);
-            PersonRepository = new PersonRepositoryMock(people ?? MockPeople(10));
+            PersonRepository = new PersonRepositoryMock(people ?? MockPeople(Users.Count));
         }
 
         public List<IdentityUser> MockUsers(int amount)

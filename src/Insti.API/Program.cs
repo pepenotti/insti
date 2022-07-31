@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 
@@ -65,3 +66,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+[ExcludeFromCodeCoverage]
+public partial class Program { }

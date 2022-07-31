@@ -1,30 +1,34 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
 
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Services\**" />
+		<EmbeddedResource Remove="Services\**" />
+		<None Remove="Services\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Bogus" Version="34.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="Moq" Version="4.17.2" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
-    <PackageReference Include="coverlet.collector" Version="3.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Bogus" Version="34.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.3" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+		<PackageReference Include="Moq" Version="4.17.2" />
+		<PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
+		<PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
+		<PackageReference Include="coverlet.collector" Version="3.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Insti.API\Insti.API.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Insti.API\Insti.API.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage" />
+	</ItemGroup>
 
 </Project>
