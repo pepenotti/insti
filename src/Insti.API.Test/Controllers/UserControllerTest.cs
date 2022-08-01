@@ -20,7 +20,6 @@ namespace Insti.API.Test.Controllers
     [TestClass]
     public class UserControllerTest
     {
-
         private const string WRONG_ROLE = "wrongRole";
         private const string WRONG_ROLE_CODE = "test";
         private IdentityUser user;
@@ -41,7 +40,7 @@ namespace Insti.API.Test.Controllers
             var repositoryMocks = new RepositoryMocker();
             repositoryMocks.Init();
 
-            var userManagerMock = UserManagerMocker.MockUserManager(usersList);
+            var userManagerMock = UserManagerMocker.MockUserManager<IdentityUser>();
             var userRoles = UserRoles.Roles;
             var userRolesWereCleared = false;
 
@@ -92,7 +91,7 @@ namespace Insti.API.Test.Controllers
             //Arrange
             var repositoryMocks = new RepositoryMocker();
             repositoryMocks.Init();
-            var userManagerMock = UserManagerMocker.MockUserManager(new List<IdentityUser> { user });
+            var userManagerMock = UserManagerMocker.MockUserManager<IdentityUser>();
             var userRoles = UserRoles.Roles;
             var userRolesWereCleared = false;
 
@@ -178,7 +177,7 @@ namespace Insti.API.Test.Controllers
             var personModelMocker = new Faker<PersonModel>()
                             .RuleFor(x => x.FirstName, f => f.Person.FirstName)
                             .RuleFor(x => x.LastName, f => f.Person.LastName)
-                            .RuleFor(x => x.GenderId, f => "0");
+                            .RuleFor(x => x.GenderId, f => "1");
 
             var newPersonData = personModelMocker.Generate(1).First();
             var storedPersonData = repositoryMocks.PersonRepository.GetByUserId(user.Id)!;
@@ -196,11 +195,9 @@ namespace Insti.API.Test.Controllers
 
             Assert.AreNotEqual(oldFirstName, newPersonData.FirstName);
             Assert.AreNotEqual(oldLastName, newPersonData.LastName);
-            Assert.AreNotEqual(oldGenderId, newPersonData.GenderId);
 
             Assert.AreEqual(storedPersonData.FirstName, newPersonData.FirstName);
             Assert.AreEqual(storedPersonData.LastName, newPersonData.LastName);
-            Assert.AreEqual(storedPersonData.GenderId, newPersonData.GenderId);
         }
 
         [TestMethod]
@@ -230,7 +227,7 @@ namespace Insti.API.Test.Controllers
             repositoryMocks = new RepositoryMocker();
             repositoryMocks.Init(usersList);
 
-            var userManagerMock = UserManagerMocker.MockUserManager(usersList);
+            var userManagerMock = UserManagerMocker.MockUserManager<IdentityUser>();
 
             var getUserAsyncReturn = (ClaimsPrincipal x) => Task.FromResult(user);
 

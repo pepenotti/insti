@@ -21,7 +21,8 @@ namespace Insti.API.Service
         public AuthService(
            UserManager<IdentityUser> userManager,
            RoleManager<IdentityRole> roleManager,
-           IConfiguration configuration)
+           IConfiguration configuration,
+           List<string>? roles = null)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -32,7 +33,11 @@ namespace Insti.API.Service
             jwtExpiration = int.Parse(configuration["JWT:Expiration"]);
                 
             // TODO: Check if this works :rolf:
-            UserRoles.Roles.ForEach(role => { Task t = InitializeRole(role); });
+            if(roles == null)
+                UserRoles.Roles.ForEach(role => { Task t = InitializeRole(role); });
+            else
+                roles.ForEach(role => { Task t = InitializeRole(role); });
+
         }
 
         public async Task<JwtSecurityToken> Login(string userName, string password)
